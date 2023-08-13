@@ -81,6 +81,6 @@ Our commute optimization features encourage employees to choose eco-friendly tra
 
 ## License
 
-Lend A Hand is open-source and distributed under the [MIT License](LICENSE). Feel free to use, modify, and share the project as per the terms of the license.
+GreenSquare is open-source and distributed under the [MIT License](LICENSE). Feel free to use, modify, and share the project as per the terms of the license.
 
-We hope Lend A Hand inspires more people to engage in micro-volunteering and contributes to making the world a better place. Happy hacking at TechXelerate!
+We hope GreenSquare helps contribute to making the world a better place. Happy hacking at Katy Youth Hacks!!
