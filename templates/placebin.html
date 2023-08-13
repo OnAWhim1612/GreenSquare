@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image to Text and OpenAI API</title>
+    <link href="https://fonts.googleapis.com/css2?family=Vollkorn:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Vollkorn', serif;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+
+        input[type="file"] {
+            margin-bottom: 10px;
+        }
+
+        #outputText {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+    <input type="file" id="imageInput">
+    <button id="convertBtn">Convert and Process</button>
+    <h2>Optimal Recycling Bin Placement in Public Spaces</h2>
+    <p>Explore the recommendations below for effective recycling bin placement in areas with high foot traffic and significant recyclable waste generation.</p>
+    <div id="outputText"></div>
+    <script>
+        const apiKey = "K86715241088957"; // Replace with your OCR.Space API key
+        const openaiApiKey = "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"; // Replace with your OpenAI API key
+        const convertBtn = document.getElementById("convertBtn");
+        const imageInput = document.getElementById("imageInput");
+        const outputText = document.getElementById("outputText");
+
+        convertBtn.addEventListener("click", async () => {
+            const file = imageInput.files[0];
+
+            if (file) {
+                const formData = new FormData();
+                formData.append("apikey", apiKey);
+                formData.append("language", "eng");
+                formData.append("isOverlayRequired", true);
+                formData.append("file", file);
+
+                try {
+                    const ocrResponse = await fetch("https://api.ocr.space/parse/image", {
+                        method: "POST",
+                        body: formData,
+                    });
+
+                    const ocrData = await ocrResponse.json();
+                    if (ocrData && ocrData.ParsedResults && ocrData.ParsedResults.length > 0) {
+                        const extractedText = ocrData.ParsedResults[0].ParsedText;
+
+                        // Now, let's send the extracted text to OpenAI API
+                        const openaiResponse = await fetch("https://api.openai.com/v1/engines/text-davinci-003/completions", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "Authorization": `Bearer ${openaiApiKey}`
+                            },
+                            body: JSON.stringify({
+                                prompt: `Provide reasoning for your response. These are the locations in a public space. Near where should recycling bins be placed to increase recycling rate (2-5 places). Places with high foot traffic and high generation of recyclable waste: ${extractedText}`,
+                                temperature: 0.8, // Adjust the temperature value here
+                                max_tokens: 800, // You can adjust max_tokens to control the length, but be careful not to set it too low
+                            })
+                        });
+
+                        const openaiData = await openaiResponse.json();
+                        const generatedText = openaiData.choices[0].text;
+                        outputText.innerText = generatedText;
+                    } else {
+                        outputText.innerText = "No text extracted from the image.";
+                    }
+                } catch (error) {
+                    console.error("Error:", error);
+                    outputText.innerText = "An error occurred while processing the image or OpenAI request.";
+                }
+            } else {
+                outputText.innerText = "Please select an image file.";
+            }
+        });
+    </script>
+</body>
+</html>

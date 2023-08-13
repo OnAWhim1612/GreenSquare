@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Results</title>
+  <link href="https://fonts.googleapis.com/css2?family=Vollkorn:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      width: 80%;
+      max-width: 800px; /* Wider container for tabs */
+      background-color: #fff;
+      padding: 20px;
+      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      font-family: 'Vollkorn', serif;
+      margin-bottom: 15px;
+    }
+
+    .tabs {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .tab {
+      padding: 10px 20px;
+      margin: 0 10px;
+      background-color: #f0f0f0;
+      border: 1px solid #ccc;
+      cursor: pointer;
+    }
+
+
+    .tab.active {
+      background-color: #067d3a;
+      color: #fff;
+      border-color: #067d3a;
+    }
+
+    .content {
+      display: none;
+    }
+
+    .content.active {
+      display: block;
+    }
+
+    p {
+      margin-bottom: 10px;
+    }
+        .btn-default,
+        .btn-default:visited {
+            padding: 13px 25px;
+            border: none;
+            font-size: 0.9em;
+            font-weight: 700;
+            text-transform: uppercase;
+            background-color: #067d3a;
+            color: #fff;
+            transition: background-color 0.1s;
+        }
+
+        .btn-default:hover,
+        .btn-default:active {
+            background-color: #896600;
+        }
+
+        label {
+          font-family: 'Vollkorn', serif;
+          padding: 10px 20px;
+
+        }
+        #energyForm label,
+        #energyForm input,
+        #energyForm select,
+        #energyForm button {
+          margin-bottom: 15px;
+        }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Hello {{ name }}!</h1>
+    <div class="tabs">
+      <div class="tab active" onclick="showTab('basic')">Basic Stats</div>
+      <div class="tab" onclick="showTab('space')">Green Magic</div>
+      <div class="tab" onclick="showTab('energy')">Energy Usage</div>
+      <div class="tab" onclick="showTab('waste')">Waste Management</div>
+    </div>
+    <div class="content active" id="basic">
+      <h2>Details:</h2>
+      <p><strong>Full Name:</strong> {{ fullName }}</p>
+      <p><strong>Location:</strong> {{ location }}</p>
+      <h2>Energy:</h2>
+      <p><strong>Electricity Consumption Index:</strong> {{ eci }}</p>
+      <p>{{ cons }}</p>
+      <h2>Waste:</h2>
+      <p><strong>Waste Production:</strong> {{ weeklyWaste }} pounds per person</p>
+      <p>{{ wfeed }}</p>
+    </div>
+    <div class="content" id="space">
+      <h2>Green Magic</h2>
+      <p><strong>Type of Dwelling:</strong> {{ dwellingType }}</p>
+      <p><strong>Approximate Area:</strong> {{ area }} sq feet</p>
+      <p><strong>Number of Residents:</strong> {{ residents }}</p>
+      <h2>Plants!</h2>
+      <p><strong>Indoor Plants? (Y/N):</strong> {{ indoorPlants }}</p>
+      <p>{{ pmess }}</p>
+
+      <a href="plant" class="btn-link">
+        <button class="btn-default">Plant Suggestions Here!</button>
+      </a>
+
+    </div>
+<div class="content" id="energy">
+  <h2>Solar Energy Potential</h2>
+  <form id="energyForm">
+    <p>Location: {{ location }}</p>
+
+    <label for="solarIrradiance">Solar Irradiance (kWh/m²/day):</label>
+    <input type="number" id="solarIrradiance" name="solarIrradiance" step="0.01"><br>
+
+    <label for="roofOrientation">Roof Orientation:</label>
+    <select id="roofOrientation" name="roofOrientation">
+      <option value="north">North</option>
+      <option value="south">South</option>
+      <option value="east">East</option>
+      <option value="west">West</option>
+    </select><br>
+
+    <label for="roofAngle">Roof Angle (degrees):</label>
+    <input type="number" id="roofAngle" name="roofAngle" step="0.1"><br>
+
+    <button type="button" onclick="calculateSolarPotential()" class="btn-default" class="btn-link">Calculate Solar Potential</button>
+
+  </form>
+
+  <p id="solarInfo"></p>
+  <a href="https://drive.google.com/file/d/1UhV196cmPbhtSfJlnR80z2lTfewT_C-M/view?usp=sharing" target="_blank">Click for Carbon Offset Techniques</a>
+
+</div>
+    <div class="content" id="waste">
+  <h2>Waste Management</h2>
+  <p>Proper waste management is crucial for minimizing environmental impact. Here are some waste management practices you can adopt:</p>
+
+  <h3>Recycling</h3>
+  <p>Recycling helps reduce the amount of waste that ends up in landfills. Sort your waste into recyclables and non-recyclables. Common recyclable materials include paper, cardboard, glass, and certain plastics.</p>
+
+  <h3>Composting</h3>
+  <p>Composting turns organic waste into nutrient-rich soil. You can compost food scraps, yard waste, and certain paper products. Use the resulting compost to enrich your garden soil.</p>
+
+  <h3>Reducing Waste</h3>
+  <p>Minimize waste generation by practicing the 3 Rs: Reduce, Reuse, Recycle. Avoid single-use items, opt for reusable products, and repair items instead of discarding them.</p>
+
+  <h3>E-Waste Disposal</h3>
+  <p>Electronic waste (e-waste) should be disposed of properly. Many electronics contain hazardous materials. Find local e-waste disposal centers or collection events in your area.</p>
+
+  <h3>Hazardous Waste</h3>
+  <p>Dispose of hazardous waste such as batteries, paints, and chemicals through designated collection sites. Improper disposal can harm the environment and public health.</p>
+
+  <h3>Community Involvement</h3>
+  <p>Participate in community clean-up events and recycling programs. Educate others about the importance of responsible waste management.</p>
+
+  <h3>Waste Audits</h3>
+  <p>Conduct waste audits to understand your waste stream better. This can help identify areas where you can further reduce waste and improve recycling efforts.</p>
+
+      <a href="ai" class="btn-link">
+        <button class="btn-default">Check Recyclable Waste!</button>
+      </a>
+
+    </div>
+
+  <script>
+    function showTab(tabId) {
+      const tabs = document.querySelectorAll('.tab');
+      tabs.forEach(tab => tab.classList.remove('active'));
+
+      const contents = document.querySelectorAll('.content');
+      contents.forEach(content => content.classList.remove('active'));
+
+      document.querySelector(`#${tabId}`).classList.add('active');
+      document.querySelector(`[onclick="showTab('${tabId}')"]`).classList.add('active');
+    }
+
+  function calculateSolarPotential() {
+    const locationInput = document.getElementById('location');
+    const solarIrradianceInput = document.getElementById('solarIrradiance');
+    const roofOrientationSelect = document.getElementById('roofOrientation');
+    const roofAngleInput = document.getElementById('roofAngle');
+    const solarInfoElement = document.getElementById('solarInfo');
+
+    const calculatedSolarIrradiance = parseFloat(solarIrradianceInput.value);
+    const userRoofOrientation = roofOrientationSelect.value;
+    const userRoofAngle = parseFloat(roofAngleInput.value);
+
+    // Replace 'thresholdValue' with an actual value for your threshold
+    const thresholdValue = 5; // Replace with the appropriate value
+
+    // Calculate solar potential based on the calculatedSolarIrradiance and other inputs
+    if (calculatedSolarIrradiance > thresholdValue) {
+      solarInfoElement.textContent = 'Your area has good solar energy potential, making it suitable for solar panel installation.';
+    } else {
+      solarInfoElement.textContent = 'While solar energy potential exists in your area, additional factors may affect the viability of solar panel installation.';
+    }
+  }
+  </script>
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Public Space Details Form</title>
+<link href="https://fonts.googleapis.com/css2?family=Vollkorn:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+
+  form {
+    width: 80%;
+    max-width: 600px;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  h1, h2 {
+    font-family: 'Vollkorn', serif;
+    margin-bottom: 15px;
+  }
+
+  label {
+    font-weight: bold;
+    font-family: 'Vollkorn', serif;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="number"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  label.checkbox {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: normal;
+  }
+
+  input[type="checkbox"] {
+    margin-right: 5px;
+  }
+
+  button {
+    margin-top: 20px;
+    padding: 12px 24px;
+    border: none;
+    font-size: 0.9em;
+    font-weight: 600;
+    text-transform: uppercase;
+    background-color: #067d3a;
+    color: #fff;
+    transition: background-color 0.2s;
+    cursor: pointer;
+    width: 100%;
+  }
+
+  button:hover {
+    background-color: #549f58;
+  }
+</style>
+</head>
+<body>
+
+  <form action="public_result" method="post">
+    <h1>Public Space Details Form</h1>
+    <h2>Basic Information:</h2>
+    <label for="spaceName">Space Name:</label>
+    <input type="text" id="spaceName" name="spaceName" placeholder="Central Park" required>
+
+    <label for="location">Location:</label>
+    <input type="text" id="location" name="location" placeholder="City, State, Country" required>
+
+    <h2>Space Details:</h2>
+    <label for="spaceType">Type of Public Space:</label>
+    <input type="text" id="spaceType" name="spaceType" placeholder="Park" required>
+
+    <label for="area">Total Area:</label>
+    <input type="number" id="area" name="area" placeholder="50000" required>
+
+    <h2>Energy Usage:</h2>
+    <label for="electricityUsage">Average Monthly Electricity Usage:</label>
+    <input type="number" id="electricityUsage" name="electricityUsage" placeholder="1000" required>
+
+    <h2>Waste Management:</h2>
+    <label for="wastePractices">Current Waste Management Practices:</label>
+    <input type="text" id="wastePractices" name="wastePractices" placeholder="Recycling, Waste Bins" required>
+
+    <label for="weeklyWaste">Approximate Weekly Waste Amount:</label>
+    <input type="text" id="weeklyWaste" name="weeklyWaste" placeholder="40 bags" required>
+
+    <!-- Continue adding the remaining input fields... -->
+
+    <h2>Green Features:</h2>
+    <label for="greenFeatures">Green Features Implemented:</label>
+    <input type="text" id="greenFeatures" name="greenFeatures" placeholder="Solar Lighting, Native Plants" required>
+
+    <h2>Transportation Access:</h2>
+    <label for="transportationAccess">Public Transportation Access:</label>
+    <input type="text" id="transportationAccess" name="transportationAccess" placeholder="Bus Stop, Bike Lanes" required>
+
+    <h2>Consent and Submit:</h2>
+    <label class="checkbox">
+      <input type="checkbox" name="agreement" required>
+      I agree to the terms and conditions or privacy policy.
+    </label>
+
+    <button type="submit">Submit</button>
+  </form>
+
+</body>
+</html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Public Space Details Result</title>
+<link href="https://fonts.googleapis.com/css2?family=Vollkorn:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      width: 80%;
+      max-width: 800px; /* Wider container for tabs */
+      background-color: #fff;
+      padding: 20px;
+      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      font-family: 'Vollkorn', serif;
+      margin-bottom: 15px;
+    }
+
+    .tabs {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .tab {
+      padding: 10px 20px;
+      margin: 0 10px;
+      background-color: #f0f0f0;
+      border: 1px solid #ccc;
+      cursor: pointer;
+    }
+
+    .tab.active {
+      background-color: #067d3a;
+      color: #fff;
+      border-color: #067d3a;
+    }
+
+    .content {
+      display: none;
+    }
+
+    .content.active {
+      display: block;
+    }
+
+    /* Additional styles for corporate-specific content */
+    .corporate-content {
+      display: none;
+    }
+
+    .corporate-content.active {
+      display: block;
+    }
+
+    p {
+      margin-bottom: 10px;
+    }
+
+    .btn-default,
+    .btn-default:visited {
+      padding: 13px 25px;
+      border: none;
+      font-size: 0.9em;
+      font-weight: 700;
+      text-transform: uppercase;
+      background-color: #067d3a;
+      color: #fff;
+      transition: background-color 0.1s;
+    }
+
+    .btn-default:hover,
+    .btn-default:active {
+      background-color: #896600;
+    }
+
+    label {
+      font-family: 'Vollkorn', serif;
+      padding: 10px 20px;
+    }
+
+    #energyForm label,
+    #energyForm input,
+    #energyForm select,
+    #energyForm button {
+      margin-bottom: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Public Space Details Result</h1>
+    <div class="tabs">
+      <div class="tab active" onclick="showTab('basic')">Basic Details</div>
+      <div class="tab" onclick="showTab('energy')">Bin Placement</div>
+
+    </div>
+    <div class="content active" id="basic">
+      <h2>Basic Information</h2>
+      <p><strong>Space Name:</strong> {{ spaceName }}</p>
+      <p><strong>Location:</strong> {{ location }}</p>
+      <h2>Energy Usage</h2>
+      <p><strong>Average Monthly Electricity Usage:</strong> {{ electricityUsage }}</p>
+
+      <h2>Waste Management</h2>
+      <p><strong>Current Waste Management Practices:</strong> {{ wastePractices }}</p>
+      <p><strong>Approximate Weekly Waste Amount:</strong> {{ weeklyWaste }}</p>
+    </div>
+    <div class="content" id="energy">
+    <p>According to the US Environmental Protection Agency (EPA), about 75% of the waste generated in the United States is recyclable. However, only about 30% of that waste is actually recycled. This means that about 45% of recyclable waste is not recycled every day.</p>
+      <a href="placebin" class="btn-link">
+        <button class="btn-default">Optimize Bin Placement</button>
+      </a>
+    </div>
+
+  </div>
+<script>
+  let map;
+  let service;
+  let geocoder;
+
+  function initializeMap() {
+    map = new google.maps.Map(document.getElementById('map'), {
+      // ... your map initialization code ...
+    });
+
+    service = new google.maps.places.PlacesService(map);
+    geocoder = new google.maps.Geocoder();
+  }
+
+  function showTab(tabId) {
+    const tabs = document.querySelectorAll('.tab');
+    tabs.forEach(tab => tab.classList.remove('active'));
+    const contents = document.querySelectorAll('.content');
+    contents.forEach(content => content.classList.remove('active'));
+
+    document.querySelector(`#${tabId}`).classList.add('active');
+    document.querySelector(`[onclick="showTab('${tabId}')"]`).classList.add('active');
+
+    if (tabId === 'commute') {
+      const transportOptionsContainer = document.getElementById('transportOptions');
+      transportOptionsContainer.innerHTML = '<p>Loading...</p>';
+
+      console.log('Geocoding address:', '{{ location }}');
+      geocoder.geocode({ address: '{{ location }}' }, (results, status) => {
+        console.log('Geocoding status:', status);
+        if (status === google.maps.GeocoderStatus.OK) {
+          const locationLatLng = results[0].geometry.location;
+
+          const request = {
+            location: locationLatLng,
+            radius: 1000,
+            type: ['transit_station']
+          };
+
+          service.nearbySearch(request, (results, status) => {
+            if (status === google.maps.places.PlacesServiceStatus.OK) {
+              const transportOptionsHTML = results.map(result => `<p>${result.name}</p>`).join('');
+              transportOptionsContainer.innerHTML = transportOptionsHTML;
+            } else {
+              console.error('Error fetching transport options:', status);
+              transportOptionsContainer.innerHTML = '<p>Error loading transport options</p>';
+            }
+          });
+        } else {
+          console.error('Error geocoding location:', status);
+          transportOptionsContainer.innerHTML = '<p>Error loading transport options</p>';
+        }
+      });
+    }
+  }
+    function calculateSolarPotential() {
+    const locationInput = document.getElementById('location');
+    const solarIrradianceInput = document.getElementById('solarIrradiance');
+    const roofOrientationSelect = document.getElementById('roofOrientation');
+    const roofAngleInput = document.getElementById('roofAngle');
+    const solarInfoElement = document.getElementById('solarInfo');
+
+    const calculatedSolarIrradiance = parseFloat(solarIrradianceInput.value);
+    const userRoofOrientation = roofOrientationSelect.value;
+    const userRoofAngle = parseFloat(roofAngleInput.value);
+
+    // Replace 'thresholdValue' with an actual value for your threshold
+    const thresholdValue = 5; // Replace with the appropriate value
+
+    // Calculate solar potential based on the calculatedSolarIrradiance and other inputs
+    if (calculatedSolarIrradiance > thresholdValue) {
+      solarInfoElement.textContent = 'Your area has good solar energy potential, making it suitable for solar panel installation.';
+    } else {
+      solarInfoElement.textContent = 'While solar energy potential exists in your area, additional factors may affect the viability of solar panel installation.';
+    }
+  }
+
+</script>
+</body>
+</html>

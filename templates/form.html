@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap">
+<style>
+  body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+
+  .form-container {
+    background-color: #fff;
+    padding: 30px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 350px;
+  }
+
+  .radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 15px;
+    text-align: left;
+  }
+
+  .radio-label {
+    position: relative;
+    cursor: pointer;
+    padding-left: 35px;
+  }
+
+  .radio-input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .radiomark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: #fff;
+    border: 2px solid #4caf50;
+    border-radius: 0;
+  }
+
+  .radio-input:checked + .radiomark {
+    background-color: #4caf50;
+  }
+
+  .submit-button {
+    background-color: #067d3a;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  .submit-button:hover {
+    background-color: #896600;
+  }
+</style>
+</head>
+<body>
+<div class="form-container">
+  <h2 style="font-weight: 500;">Choose type of Space</h2>
+  <div class="radio-group">
+    <label class="radio-label">
+      <input class="radio-input" type="radio" name="option" value="option1">
+      <span class="radiomark"></span>
+        Domestic
+    </label>
+    <label class="radio-label">
+      <input class="radio-input" type="radio" name="option" value="option2">
+      <span class="radiomark"></span>
+        Corporate
+    </label>
+    <label class="radio-label">
+      <input class="radio-input" type="radio" name="option" value="option3">
+      <span class="radiomark"></span>
+        Public
+    </label>
+  </div>
+  <button class="submit-button" type="button" onclick="redirectToSelectedPage()">Submit</button>
+</div>
+
+<script>
+function redirectToSelectedPage() {
+  const selectedOption = document.querySelector('input[name="option"]:checked');
+  if (selectedOption) {
+    const optionValue = selectedOption.value;
+    switch (optionValue) {
+      case "option1":
+        window.location.href = "domestic";
+        break;
+      case "option2":
+        window.location.href = "corporate";
+        break;
+      case "option3":
+        window.location.href = "public";
+        break;
+      default:
+        // Handle other cases or show an error message
+        break;
+    }
+  } else {
+    // Show an error popup
+    alert("Please select an option.");
+  }
+}
+</script>
+
+</body>
+</html>

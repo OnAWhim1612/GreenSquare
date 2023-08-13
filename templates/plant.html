@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Indoor Plant Suggestion Form</title>
+<link href="https://fonts.googleapis.com/css2?family=Vollkorn:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+
+  form {
+    width: 80%;
+    max-width: 600px;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  h1, h2 {
+    font-family: 'Vollkorn', serif;
+    margin-bottom: 15px;
+  }
+
+  label {
+    font-weight: bold;
+    font-family: 'Vollkorn', serif;
+  }
+
+  input[type="text"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  button {
+    margin-top: 20px;
+    padding: 12px 24px;
+    border: none;
+    font-size: 0.9em;
+    font-weight: 600;
+    text-transform: uppercase;
+    background-color: #067d3a;
+    color: #fff;
+    transition: background-color 0.2s;
+    cursor: pointer;
+    width: 100%;
+  }
+
+  button:hover {
+    background-color: #549f58;
+  }
+</style>
+</head>
+<body>
+
+  <form id="plantCareForm" action="/get_suggestions" method="post">
+   <h1>Indoor Plant Care Form</h1>
+    <h2>Basic Information:</h2>
+    <label for="timeCommitment">Time Commitment (per week):</label>
+    <input type="text" id="timeCommitment" name="timeCommitment" placeholder="30 minutes" required>
+
+    <label for="lightConditions">Light Conditions:</label>
+    <select id="lightConditions" name="lightConditions" required>
+      <option value="low">Low Light</option>
+      <option value="medium">Medium Light</option>
+      <option value="bright">Bright Light</option>
+    </select>
+
+    <label for="temperature">Preferred Temperature Range:</label>
+    <input type="text" id="temperature" name="temperature" placeholder="18°C - 24°C" required>
+
+    <h2>Watering:</h2>
+    <label for="wateringFrequency">Watering Frequency (per week):</label>
+    <input type="text" id="wateringFrequency" name="wateringFrequency" placeholder="1-2 times" required>
+
+    <label for="wateringMethod">Preferred Watering Method:</label>
+    <textarea id="wateringMethod" name="wateringMethod" placeholder="Water from the base, avoid overwatering" required></textarea>
+
+    <h2>Additional Information:</h2>
+    <label for="notes">Notes or Special Care Instructions:</label>
+    <textarea id="notes" name="notes" placeholder="Avoid direct sunlight, mist leaves occasionally" required></textarea>
+
+    <button type="submit">Submit</button>
+  </form>
+  <div id="suggestionsContainer" class="suggestions">
+    <!-- Suggestions will be displayed here -->
+  </div>
+
+  <script>
+    document.getElementById('plantCareForm').addEventListener('submit', async function(event) {
+      event.preventDefault();
+
+      const formData = new FormData(event.target);
+
+      const response = await fetch('/get_suggestions', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const responseData = await response.json();
+      displayPlantSuggestions(responseData.plantSuggestions);
+    });
+
+    function displayPlantSuggestions(suggestions) {
+      const suggestionsContainer = document.getElementById('suggestionsContainer');
+      suggestionsContainer.innerHTML = ''; // Clear previous suggestions
+
+      suggestions.forEach((suggestion, index) => {
+        const suggestionElement = document.createElement('p');
+        suggestionElement.textContent = `Suggestion ${index + 1}: ${suggestion}`;
+        suggestionsContainer.appendChild(suggestionElement);
+      });
+    }
+  </script>
+</body>
+</html>

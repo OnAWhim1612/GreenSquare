@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Virtual Energy Audit</title>
+<style>
+  body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+
+  form {
+    width: 80%;
+    max-width: 600px;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  h1, h2 {
+    font-family: serif;
+    margin-bottom: 15px;
+  }
+
+  label {
+    font-weight: bold;
+    font-family: serif;
+  }
+
+  button,
+  button:visited {
+    padding: 13px 25px;
+    border: none;
+    font-size: 0.9em;
+    font-weight: 700;
+    text-transform: uppercase;
+    background-color: #067d3a;
+    color: #fff;
+    transition: background-color 0.1s;
+    cursor: pointer;
+  }
+
+  button:hover,
+  button:active {
+    background-color: #896600;
+  }
+
+  #recommendations {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+</style>
+</head>
+<body>
+  <form id="energyForm">
+    <h1>Virtual Energy Audit</h1>
+    <h2>Energy Usage Habits:</h2>
+    <div class="question">
+      <label>Do you turn off lights when not in use?</label>
+      <input type="radio" name="lights" value="yes"> Yes
+      <input type="radio" name="lights" value="no"> No
+    </div>
+    <div class="question">
+      <label>Do you use energy-efficient appliances?</label>
+      <input type="radio" name="appliances" value="yes"> Yes
+      <input type="radio" name="appliances" value="no"> No
+    </div>
+    <div class="question">
+      <label>Do you unplug chargers and electronics when not in use?</label>
+      <input type="radio" name="unplug" value="yes"> Yes
+      <input type="radio" name="unplug" value="no"> No
+    </div>
+    <div class="question">
+      <label>Do you adjust your thermostat to save energy?</label>
+      <input type="radio" name="thermostat" value="yes"> Yes
+      <input type="radio" name="thermostat" value="no"> No
+    </div>
+    <div class="question">
+      <label>Do you use natural light during the day?</label>
+      <input type="radio" name="naturalLight" value="yes"> Yes
+      <input type="radio" name="naturalLight" value="no"> No
+    </div>
+
+    <button type="button" onclick="calculateRecommendations()">Get Recommendations</button>
+  </form>
+  <div id="recommendations" class="suggestions">
+    <!-- Recommendations will be displayed here -->
+  </div>
+  <script>
+    function calculateRecommendations() {
+      const form = document.getElementById("energyForm");
+      const lights = form.elements.lights.value;
+      const appliances = form.elements.appliances.value;
+      const unplug = form.elements.unplug.value;
+      const thermostat = form.elements.thermostat.value;
+      const naturalLight = form.elements.naturalLight.value;
+
+      let recommendations = "";
+
+      if (lights === "no") {
+        recommendations += "Consider turning off lights when not in use to save energy.\n";
+      }
+
+      if (appliances === "no") {
+        recommendations += "Upgrade to energy-efficient appliances to reduce energy consumption.\n";
+      }
+
+      if (unplug === "no") {
+        recommendations += "Remember to unplug chargers and electronics when not in use to avoid phantom energy usage.\n";
+      }
+
+      if (thermostat === "no") {
+        recommendations += "Adjusting your thermostat slightly can help save energy. Consider setting it a bit lower in winter and higher in summer.\n";
+      }
+
+      if (naturalLight === "no") {
+        recommendations += "Utilize natural light during the day to reduce the need for artificial lighting.\n";
+      }
+
+      if (recommendations === "") {
+        recommendations = "Great job! You are already taking energy-saving measures.";
+      }
+
+      document.getElementById("recommendations").textContent = recommendations;
+    }
+  </script>
+</body>
+</html>
