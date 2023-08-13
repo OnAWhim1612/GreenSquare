@@ -5,8 +5,7 @@ import pytesseract
 
 app = Flask(__name__, static_folder='static')
 app.secret_key = 'your_secret_key'  # Replace with a secret key for session management
-openai.api_key = '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'
-API_URL = 'https://api.openai.com/v1/engines/davinci-codex/completions'
+
 
 @app.route('/')
 def landing():
